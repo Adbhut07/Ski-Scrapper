@@ -1,12 +1,12 @@
 # Ski Scrapper
 
-> **This is a freelancing project developed for a travel agency** to help their customers and agents easily discover, compare, and track ski resort information, packages, and pricing from across the web — all in one place.
+> **This is a freelancing project developed for a travel agency** to help their customers and agents easily discover, compare, and book flights — all in one place.
 
 ---
 
 ## 📋 Project Overview
 
-Ski Scrapper is a web scraping and aggregation platform built for a travel agency that specializes in ski and winter sports holidays. It automates the collection of ski resort data, package deals, and availability information, saving agents countless hours of manual research.
+Ski Scrapper is a flight booking platform built for a travel agency that specializes in ski and winter sports holidays. It enables customers and agents to search for flights, compare prices, and complete bookings seamlessly, making trip planning for ski destinations effortless.
 
 ---
 
@@ -24,20 +24,20 @@ Ski Scrapper is a web scraping and aggregation platform built for a travel agenc
 
 ### Key Features
 
-- 🔍 **Web Scraping** — Automated scraping of ski resort websites for up-to-date pricing and availability
-- 📊 **Data Aggregation** — Consolidates data from multiple sources into a single, unified view
+- ✈️ **Flight Search** — Search and browse available flights to ski destinations
+- 💰 **Price Comparison** — Compare prices across multiple airlines and booking sources
+- 📅 **Booking Management** — Seamless flight booking flow for agents and customers
 - ⚡ **Server-Side Rendering** — Leverages Next.js SSR for fast, SEO-friendly pages
-- 📱 **Responsive UI** — Mobile-first design for use by agents on any device
-- 🔄 **Auto-Updates** — Pages auto-refresh as underlying data changes
+- 📱 **Responsive UI** — Mobile-first design for use by agents and customers on any device
 
 ### Project Structure
 
 ```
 ├── app/              # Next.js App Router pages & layouts
 │   ├── page.tsx      # Main entry point
-│   └── layout.tsx    # Root layout
+���   └── layout.tsx    # Root layout
 ├── components/       # Reusable UI components
-├── lib/              # Scraping logic & utilities
+├── lib/              # Business logic & utilities
 ├── public/           # Static assets
 └── styles/           # Global styles
 ```
