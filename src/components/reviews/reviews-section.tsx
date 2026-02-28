@@ -193,7 +193,7 @@ function ReviewFormModal({
               <textarea
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                placeholder="Share your experience with Gola Bhai Travels..."
+                placeholder="Share your experience with Soami Travels..."
                 rows={3}
                 required
                 className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 resize-none"

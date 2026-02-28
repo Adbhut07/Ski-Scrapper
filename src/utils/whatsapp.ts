@@ -53,7 +53,10 @@ export function generateWhatsAppURL(
   message += `Duration: ${formatDuration(outbound.duration)}\n`;
   message += `Stops: ${stops}\n\n`;
 
-  message += `💰 *Price: ${formatINR(flight.price.markedUpTotal)}*\n\n`;
+  const originalPrice = flight.price.markedUpTotal;
+  const discountedPrice = Math.ceil(originalPrice * 0.95);
+  message += `💰 *Price: ~${formatINR(originalPrice)}~ ${formatINR(discountedPrice)}* (5% OFF)\n`;
+  message += `✅ _Inclusive of all taxes_\n\n`;
 
   message += `📲 Sent via ${siteConfig.name}`;
 

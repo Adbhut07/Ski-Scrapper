@@ -25,6 +25,9 @@ interface FlightCardProps {
   onBook: (flight: FlightOffer) => void;
 }
 
+// Discount percentage applied to the display price
+const DISCOUNT_PERCENT = 5;
+
 export function FlightCard({ flight, searchParams, onBook }: FlightCardProps) {
   const outbound = flight.itineraries[0];
   const firstSegment = outbound.segments[0];
@@ -32,6 +35,11 @@ export function FlightCard({ flight, searchParams, onBook }: FlightCardProps) {
   const stopCount = outbound.segments.length - 1;
 
   const returnItinerary = flight.itineraries[1];
+
+  // Original price = markedUpTotal (basePrice + ₹400 markup)
+  const originalPrice = flight.price.markedUpTotal;
+  // Discounted price = original price minus flat discount
+  const discountedPrice = Math.ceil(originalPrice * (1 - DISCOUNT_PERCENT / 100));
 
   // Prefer Google Flights logo URL, fallback to generated
   const logoUrl = flight.airlineLogo || getAirlineLogo(firstSegment.carrierCode);
@@ -176,10 +184,21 @@ export function FlightCard({ flight, searchParams, onBook }: FlightCardProps) {
           {/* Price and CTA */}
           <div className="flex lg:flex-col items-center lg:items-end justify-between lg:justify-center gap-2 lg:min-w-[150px] pt-3 lg:pt-0 border-t lg:border-t-0 lg:border-l border-border/50 lg:pl-6">
             <div className="text-right">
+              <div className="flex items-center gap-2 justify-end">
+                <span className="text-sm text-muted-foreground line-through">
+                  {formatINR(originalPrice)}
+                </span>
+                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-green-100 text-green-700 border border-green-200">
+                  {DISCOUNT_PERCENT}% OFF
+                </span>
+              </div>
               <p className="text-2xl font-bold text-foreground">
-                {formatINR(flight.price.markedUpTotal)}
+                {formatINR(discountedPrice)}
               </p>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-[10px] text-green-600 font-medium">
+                incl. all taxes
+              </p>
+              <p className="text-xs text-muted-foreground mt-0.5">
                 per person • {searchParams.adults + searchParams.children} traveller(s)
               </p>
             </div>

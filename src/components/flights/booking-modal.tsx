@@ -101,9 +101,14 @@ export function BookingModal({
             <span className="font-medium">
               {firstSegment.departure.iataCode} → {lastSegment.arrival.iataCode}
             </span>
-            <span className="font-bold text-blue-600">
-              {formatINR(flight.price.markedUpTotal)}
-            </span>
+            <div className="text-right">
+              <span className="text-xs text-muted-foreground line-through mr-1.5">
+                {formatINR(flight.price.markedUpTotal)}
+              </span>
+              <span className="font-bold text-green-600">
+                {formatINR(Math.ceil(flight.price.markedUpTotal * 0.95))}
+              </span>
+            </div>
           </div>
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <span>{firstSegment.carrierName}</span>
