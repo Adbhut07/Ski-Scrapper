@@ -1,8 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ski Scrapper
 
-## Getting Started
+> **This is a freelancing project developed for a travel agency** to help their customers and agents easily discover, compare, and book flights — all in one place.
 
-First, run the development server:
+---
+
+## 📋 Project Overview
+
+Ski Scrapper is a flight booking platform built for a travel agency. It enables customers and agents to search for flights, compare prices, and complete bookings seamlessly, making trip planning for destinations effortless.
+
+---
+
+## 🛠️ Technical Details
+
+### Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| **Framework** | [Next.js 14](https://nextjs.org) (App Router) |
+| **Language** | TypeScript |
+| **Styling** | Tailwind CSS |
+| **Runtime** | Node.js |
+| **Font** | [Geist](https://vercel.com/font) via `next/font` |
+
+### Key Features
+
+- ✈️ **Flight Search** — Search and browse available flights to destinations
+- 💰 **Price Comparison** — Compare prices across multiple airlines and booking sources
+- 📅 **Booking Management** — Seamless flight booking flow for agents and customers
+- ⚡ **Server-Side Rendering** — Leverages Next.js SSR for fast, SEO-friendly pages
+- 📱 **Responsive UI** — Mobile-first design for use by agents and customers on any device
+
+### Project Structure
+
+```
+├── app/              # Next.js App Router pages & layouts
+│   ├── page.tsx      # Main entry point
+���   └── layout.tsx    # Root layout
+├── components/       # Reusable UI components
+├── lib/              # Business logic & utilities
+├── public/           # Static assets
+└── styles/           # Global styles
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- npm / yarn / pnpm / bun
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/Adbhut07/Ski-Scrapper.git
+cd Ski-Scrapper
+
+# Install dependencies
+npm install
+```
+
+### Running the Development Server
 
 ```bash
 npm run dev
@@ -14,23 +74,21 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you make edits.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🏗️ Build & Deployment
 
-To learn more about Next.js, take a look at the following resources:
+### Build for Production
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run build
+npm start
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Deploy on Vercel
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The easiest way to deploy this Next.js app is via the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme).
