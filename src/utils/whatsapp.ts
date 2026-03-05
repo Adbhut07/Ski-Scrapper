@@ -54,8 +54,8 @@ export function generateWhatsAppURL(
   message += `Stops: ${stops}\n\n`;
 
   const originalPrice = flight.price.markedUpTotal;
-  const discountedPrice = Math.ceil(originalPrice * 0.95);
-  message += `💰 *Price: ~${formatINR(originalPrice)}~ ${formatINR(discountedPrice)}* (5% OFF)\n`;
+  const discountedPrice = Math.ceil(originalPrice * 0.90);
+  message += `💰 *Price: ~${formatINR(originalPrice)}~ ${formatINR(discountedPrice)}* (10% OFF)\n`;
   message += `✅ _Inclusive of all taxes_\n\n`;
 
   message += `📲 Sent via ${siteConfig.name}`;

@@ -106,7 +106,7 @@ export function BookingModal({
                 {formatINR(flight.price.markedUpTotal)}
               </span>
               <span className="font-bold text-green-600">
-                {formatINR(Math.ceil(flight.price.markedUpTotal * 0.95))}
+                {formatINR(Math.ceil(flight.price.markedUpTotal * 0.90))}
               </span>
             </div>
           </div>

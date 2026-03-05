@@ -26,7 +26,7 @@ interface FlightCardProps {
 }
 
 // Discount percentage applied to the display price
-const DISCOUNT_PERCENT = 5;
+const DISCOUNT_PERCENT = 10;
 
 export function FlightCard({ flight, searchParams, onBook }: FlightCardProps) {
   const outbound = flight.itineraries[0];
