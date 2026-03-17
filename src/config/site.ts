@@ -10,9 +10,9 @@ export const siteConfig = {
   url: "https://soamitravels.com",
   ogImage: "/og-image.png",
   contact: {
-    phone: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "919876543210",
+    phone: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "918791836452",
     email: "info@soamitravels.com",
     address: "India",
   },
-  whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "919876543210",
+  whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "918791836452",
 };

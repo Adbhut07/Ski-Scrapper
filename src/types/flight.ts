@@ -9,7 +9,19 @@ export interface FlightSearchParams {
   returnDate?: string;
   adults: number;
   children: number;
+  infants?: number;
   travelClass: "ECONOMY" | "PREMIUM_ECONOMY" | "BUSINESS" | "FIRST";
+  directOnly?: boolean;
+  nearbyOrigin?: boolean;
+  nearbyDestination?: boolean;
+  // Multi-city legs (only used for multi-city trips)
+  multiCityLegs?: MultiCityLeg[];
+}
+
+export interface MultiCityLeg {
+  origin: string;
+  destination: string;
+  departureDate: string;
 }
 
 export interface Airport {
@@ -47,6 +59,12 @@ export interface FlightItinerary {
   segments: FlightSegment[];
 }
 
+export interface CO2Emissions {
+  amount: number; // kg per passenger
+  unit: string;
+  percentDiff?: number; // % vs typical route (negative = less)
+}
+
 export interface FlightOffer {
   id: string;
   itineraries: FlightItinerary[];
@@ -56,6 +74,7 @@ export interface FlightOffer {
     markedUpTotal: number; // price after markup
     perAdult: number;
     perChild?: number;
+    taxes?: number;
   };
   travelerPricings: {
     travelerType: string;
@@ -64,11 +83,17 @@ export interface FlightOffer {
   validatingAirlineCodes: string[];
   numberOfBookableSeats: number;
   baggage?: {
-    included?: string;
+    included?: string;           // e.g. "1 PC 23KG" or "7 KG"
+    cabin?: string;              // e.g. "7 KG"
+    checked?: string;            // e.g. "23 KG"
     purchasable?: boolean;
+    cabinKg?: number;
+    checkedKg?: number;
+    checkedPieces?: number;
   };
   lastTicketingDate?: string;
   airlineLogo?: string; // Direct logo URL from API
+  co2Emissions?: CO2Emissions;
 }
 
 export interface FlightSearchResponse {
@@ -85,4 +110,17 @@ export interface FlightSearchResponse {
 export interface BookingUserDetails {
   name: string;
   phone: string;
+}
+
+// ==========================================
+// Filter State
+// ==========================================
+
+export interface FilterState {
+  airlines: string[];
+  stops: number[];
+  priceRange: [number, number];
+  departureTimeRange?: [number, number]; // hours 0–24
+  maxDuration?: number; // minutes
+  baggageType?: "cabin" | "checked" | "any";
 }
