@@ -11,7 +11,6 @@ import {
   Luggage,
   BaggageClaim,
   Heart,
-  Leaf,
   AlertCircle,
   Terminal,
 } from "lucide-react";
@@ -33,7 +32,7 @@ interface FlightCardProps {
   onBook: (flight: FlightOffer) => void;
 }
 
-const DISCOUNT_PERCENT = 10;
+
 
 function parseDurationMins(duration: string): number {
   const match = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?/);
@@ -56,32 +55,23 @@ export function FlightCard({ flight, searchParams, onBook }: FlightCardProps) {
 
   const returnItinerary = flight.itineraries[1];
 
-  const originalPrice = flight.price.markedUpTotal;
-  const discountedPrice = Math.ceil(originalPrice * (1 - DISCOUNT_PERCENT / 100));
+  const price = flight.price.markedUpTotal;
 
   const logoUrl = flight.airlineLogo || getAirlineLogo(firstSeg.carrierCode);
-
-  // Departure time for urgency labeling
-  const isLastTicketSoon =
-    flight.lastTicketingDate &&
-    new Date(flight.lastTicketingDate).getTime() - Date.now() < 24 * 60 * 60 * 1000;
-
-  // CO2 percent diff
-  const co2Diff = flight.co2Emissions?.percentDiff;
 
   // Baggage summary
   const cabin = flight.baggage?.cabin || flight.baggage?.cabinKg ? `${flight.baggage?.cabinKg ?? ""}kg cabin` : flight.baggage?.included ? "Cabin bag" : null;
   const checked = flight.baggage?.checked || flight.baggage?.checkedKg ? `${flight.baggage?.checkedKg ?? ""}kg checked` : null;
 
   return (
-    <Card className="group overflow-hidden border border-gray-200 hover:border-blue-300 hover:shadow-xl hover:shadow-blue-500/8 transition-all duration-300 p-0 bg-white">
+    <Card className="group overflow-hidden border border-gray-200 hover:border-blue-300 hover:shadow-xl hover:shadow-blue-500/8 transition-all duration-300 p-0 bg-white relative">
       <div className="p-4 sm:p-5">
         {/* MAIN ROW */}
-        <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-6">
+        <div className="flex flex-col lg:flex-row lg:items-center gap-3 lg:gap-6">
 
-          {/* Airline Info */}
+          {/* Top row on mobile: Airline Info + Save button */}
           <div className="flex items-center gap-3 lg:w-44 shrink-0">
-            <div className="relative h-11 w-11 rounded-xl border border-gray-100 bg-gray-50 overflow-hidden flex items-center justify-center shrink-0 shadow-sm">
+            <div className="relative h-10 w-10 sm:h-11 sm:w-11 rounded-xl border border-gray-100 bg-gray-50 overflow-hidden flex items-center justify-center shrink-0 shadow-sm">
               <Image
                 src={logoUrl}
                 alt={firstSeg.carrierName}
@@ -92,7 +82,7 @@ export function FlightCard({ flight, searchParams, onBook }: FlightCardProps) {
                 unoptimized
               />
             </div>
-            <div className="min-w-0">
+            <div className="min-w-0 flex-1">
               <p className="text-sm font-bold truncate" style={{ color: "var(--brand-navy)" }}>
                 {firstSeg.carrierName}
               </p>
@@ -103,6 +93,16 @@ export function FlightCard({ flight, searchParams, onBook }: FlightCardProps) {
                 <p className="text-[10px] text-gray-400">{firstSeg.aircraft}</p>
               )}
             </div>
+            {/* Save button — visible inline on mobile, absolute on lg */}
+            <button
+              onClick={() => setSaved(!saved)}
+              className="lg:absolute lg:top-3 lg:right-3 p-1.5 rounded-full hover:bg-gray-100 transition-colors shrink-0"
+              aria-label="Save flight"
+            >
+              <Heart
+                className={`h-4 w-4 transition-colors ${saved ? "fill-rose-500 text-rose-500" : "text-gray-300 hover:text-rose-400"}`}
+              />
+            </button>
           </div>
 
           {/* Journey Timeline */}
@@ -115,43 +115,36 @@ export function FlightCard({ flight, searchParams, onBook }: FlightCardProps) {
             )}
           </div>
 
-          {/* Price Column */}
-          <div className="flex lg:flex-col items-center lg:items-end justify-between lg:justify-center gap-3 lg:gap-1 lg:min-w-[160px] pt-3 lg:pt-0 border-t lg:border-t-0 lg:border-l border-gray-100 lg:pl-5">
-            {/* Save Button */}
-            <button
-              onClick={() => setSaved(!saved)}
-              className="absolute top-3 right-3 lg:static p-1.5 rounded-full hover:bg-gray-100 transition-colors"
-              aria-label="Save flight"
-            >
-              <Heart
-                className={`h-4 w-4 transition-colors ${saved ? "fill-rose-500 text-rose-500" : "text-gray-300 hover:text-rose-400"}`}
-              />
-            </button>
-
-            <div className="text-right">
-              <div className="flex items-center gap-1.5 justify-end">
-                <span className="text-xs text-gray-400 line-through">{formatINR(originalPrice)}</span>
-                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-green-100 text-green-700 border border-green-200">
-                  {DISCOUNT_PERCENT}% OFF
-                </span>
+          {/* Price + Book Section */}
+          <div className="flex flex-col gap-3 pt-3 border-t border-gray-100 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-5 lg:min-w-[170px] lg:gap-2 lg:items-end lg:justify-center w-full">
+            {/* Price info */}
+            <div className="flex items-center justify-between w-full lg:flex-col lg:items-end lg:justify-center">
+              <div>
+                <p className="text-2xl font-extrabold" style={{ color: "var(--brand-navy)" }}>
+                  {formatINR(price)}
+                </p>
+                <p className="text-[10px] text-gray-500 font-medium">incl. all taxes</p>
+                <p className="text-[10px] text-gray-400 mt-0.5 hidden lg:block">
+                  per person · {searchParams.adults + (searchParams.children || 0)} traveller(s)
+                </p>
               </div>
-              <p className="text-2xl font-extrabold" style={{ color: "var(--brand-navy)" }}>
-                {formatINR(discountedPrice)}
-              </p>
-              <p className="text-[10px] text-green-600 font-semibold">incl. all taxes</p>
-              <p className="text-xs text-gray-400 mt-0.5">
-                per person · {searchParams.adults + (searchParams.children || 0)} traveller(s)
-              </p>
+
+              <div className="text-right lg:hidden">
+                <p className="text-xs text-gray-500 font-medium">
+                  {searchParams.adults + (searchParams.children || 0)} Traveller(s)
+                </p>
+              </div>
             </div>
 
+            {/* Book button */}
             <Button
               onClick={() => onBook(flight)}
-              className="rounded-full font-bold text-white shadow-md hover:shadow-lg hover:scale-105 transition-all gap-1.5 whitespace-nowrap"
+              className="w-full lg:w-auto rounded-full font-bold text-white shadow-md hover:shadow-lg hover:scale-105 transition-all gap-1.5 text-sm py-5 lg:py-4"
               style={{ background: "var(--brand-green)" }}
             >
               <MessageCircle className="h-4 w-4" />
               Book on WhatsApp
-              <ArrowRight className="h-3.5 w-3.5" />
+              <ArrowRight className="h-3.5 w-3.5 hidden sm:block lg:hidden xl:block" />
             </Button>
           </div>
         </div>
@@ -177,29 +170,6 @@ export function FlightCard({ flight, searchParams, onBook }: FlightCardProps) {
             <span className="flex items-center gap-1.5 text-xs text-gray-400">
               <Luggage className="h-3.5 w-3.5" />
               No free baggage
-            </span>
-          )}
-
-          {/* Seats left */}
-          {flight.numberOfBookableSeats <= 9 && (
-            <Badge className="text-[10px] py-0 bg-red-50 text-red-600 border-red-200 hover:bg-red-50">
-              Only {flight.numberOfBookableSeats} seats left
-            </Badge>
-          )}
-
-          {/* CO2 label */}
-          {co2Diff !== undefined && co2Diff < 0 && (
-            <span className="flex items-center gap-1 text-xs text-green-600 font-medium">
-              <Leaf className="h-3.5 w-3.5" />
-              {Math.abs(co2Diff)}% less CO₂ than typical
-            </span>
-          )}
-
-          {/* Last ticketing warning */}
-          {isLastTicketSoon && (
-            <span className="flex items-center gap-1 text-xs text-amber-600 font-medium">
-              <AlertCircle className="h-3.5 w-3.5" />
-              Ticket expires soon!
             </span>
           )}
 

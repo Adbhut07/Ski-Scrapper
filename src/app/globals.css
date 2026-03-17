@@ -215,3 +215,10 @@
 .thin-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
 .thin-scrollbar::-webkit-scrollbar-track { background: transparent; }
 .thin-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 2px; }
+
+/* ── No Scrollbar (keep scroll functionality, hide bar) ── */
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* ── Custom xs breakpoint (480px) ── */
+@custom-variant xs (@media (width >= 480px));

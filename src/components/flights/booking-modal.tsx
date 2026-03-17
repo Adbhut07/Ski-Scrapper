@@ -39,7 +39,6 @@ interface BookingModalProps {
   onClose: () => void;
 }
 
-const DISCOUNT_PERCENT = 10;
 
 export function BookingModal({ flight, searchParams, open, onClose }: BookingModalProps) {
   const [name, setName] = useState("");
@@ -53,9 +52,7 @@ export function BookingModal({ flight, searchParams, open, onClose }: BookingMod
   const lastSeg = outbound.segments[outbound.segments.length - 1];
   const returnItin = flight.itineraries[1];
 
-  const originalPrice = flight.price.markedUpTotal;
-  const discountedPrice = Math.ceil(originalPrice * (1 - DISCOUNT_PERCENT / 100));
-  const savings = originalPrice - discountedPrice;
+  const price = flight.price.markedUpTotal;
   const logoUrl = flight.airlineLogo || getAirlineLogo(firstSeg.carrierCode);
 
   const validate = (): boolean => {
@@ -139,21 +136,12 @@ export function BookingModal({ flight, searchParams, open, onClose }: BookingMod
             </div>
           </div>
 
-          {/* Price Breakdown */}
-          <div className="rounded-2xl border border-green-100 bg-green-50/50 p-4 space-y-2">
-            <p className="text-xs font-bold text-green-700 uppercase tracking-wider mb-3">Price Breakdown</p>
-            <div className="flex justify-between text-sm">
-              <span className="text-gray-600">Base fare ({searchParams.adults} adult{searchParams.adults > 1 ? "s" : ""})</span>
-              <span className="font-medium">{formatINR(originalPrice)}</span>
-            </div>
-            <div className="flex justify-between text-sm text-green-700">
-              <span>Discount ({DISCOUNT_PERCENT}% off)</span>
-              <span>- {formatINR(savings)}</span>
-            </div>
-            <Separator className="my-1 opacity-50" />
+          {/* Price Summary */}
+          <div className="rounded-2xl border border-gray-100 bg-gray-50 p-4 space-y-2">
+            <p className="text-xs font-bold text-gray-600 uppercase tracking-wider mb-3">Price Summary</p>
             <div className="flex justify-between font-bold">
-              <span style={{ color: "var(--brand-navy)" }}>Total (incl. taxes)</span>
-              <span className="text-xl" style={{ color: "var(--brand-navy)" }}>{formatINR(discountedPrice)}</span>
+              <span style={{ color: "var(--brand-navy)" }}>Total fare (incl. all taxes)</span>
+              <span className="text-xl" style={{ color: "var(--brand-navy)" }}>{formatINR(price)}</span>
             </div>
             <p className="text-[10px] text-gray-400 text-right">
               per person · {searchParams.adults + (searchParams.children || 0)} traveller(s)

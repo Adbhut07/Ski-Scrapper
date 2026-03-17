@@ -218,7 +218,7 @@ function FlightsContent() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
         {/* Price Insights */}
         {!loading && priceInsights && (
-          <div className="mb-5 grid grid-cols-3 gap-3">
+          <div className="mb-5 grid grid-cols-3 gap-2 sm:gap-3">
             {[
               { label: "Best", flight: priceInsights.best, color: "border-blue-500 bg-blue-50", textColor: "text-blue-700", pill: "bg-blue-600 text-white" },
               { label: "Cheapest", flight: priceInsights.cheapest, color: "border-green-400 bg-green-50", textColor: "text-green-700", pill: "bg-green-600 text-white" },
@@ -227,16 +227,16 @@ function FlightsContent() {
               <div
                 key={label}
                 onClick={() => setSortBy(label.toLowerCase() as SortKey)}
-                className={`rounded-xl border-2 p-3 cursor-pointer hover:shadow-md transition-all ${sortBy === label.toLowerCase() ? color : "border-gray-200 bg-white hover:border-gray-300"}`}
+                className={`rounded-xl border-2 p-2 sm:p-3 cursor-pointer hover:shadow-md transition-all ${sortBy === label.toLowerCase() ? color : "border-gray-200 bg-white hover:border-gray-300"}`}
               >
-                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${sortBy === label.toLowerCase() ? pill : "bg-gray-100 text-gray-500"}`}>
+                <span className={`text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full ${sortBy === label.toLowerCase() ? pill : "bg-gray-100 text-gray-500"}`}>
                   {label}
                 </span>
-                <p className={`text-lg font-extrabold mt-1.5 ${sortBy === label.toLowerCase() ? textColor : "text-gray-700"}`}>
+                <p className={`text-sm sm:text-lg font-extrabold mt-1 sm:mt-1.5 ${sortBy === label.toLowerCase() ? textColor : "text-gray-700"}`}>
                   {formatINR(Math.ceil(flight.price.markedUpTotal * 0.9))}
                 </p>
-                <p className="text-[10px] text-gray-400 mt-0.5">
-                  {sortBy === label.toLowerCase() ? "Currently sorted" : `Click to sort`}
+                <p className="text-[9px] sm:text-[10px] text-gray-400 mt-0.5 hidden xs:block">
+                  {sortBy === label.toLowerCase() ? "Sorted" : "Tap to sort"}
                 </p>
               </div>
             ))}
@@ -244,27 +244,29 @@ function FlightsContent() {
         )}
 
         <div className="flex gap-6 items-start">
-          {/* Sidebar Filters */}
+          {/* Sidebar Filters — desktop only, hidden on mobile to avoid layout gap */}
           {!loading && flights.length > 0 && (
-            <FlightFilters
-              flights={flights}
-              airlines={airlines}
-              filters={filters}
-              onFiltersChange={setFilters}
-            />
+            <div className="hidden lg:block">
+              <FlightFilters
+                flights={flights}
+                airlines={airlines}
+                filters={filters}
+                onFiltersChange={setFilters}
+              />
+            </div>
           )}
 
           {/* Main content */}
           <div className="flex-1 min-w-0">
             {/* Sort / Count Bar */}
             {!loading && flights.length > 0 && (
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
-                <div className="flex items-center gap-2">
+              <div className="mb-4 space-y-2">
+                {/* Row 1: result count + mobile filter */}
+                <div className="flex items-center justify-between gap-2">
                   <span className="text-sm font-semibold text-gray-600">
                     {filteredAndSorted.length} result{filteredAndSorted.length !== 1 ? "s" : ""} sorted by
                   </span>
-
-                  {/* Mobile filter button */}
+                  {/* Mobile filter button — only rendered once here */}
                   <div className="lg:hidden">
                     <FlightFilters
                       flights={flights}
@@ -275,8 +277,8 @@ function FlightsContent() {
                   </div>
                 </div>
 
-                {/* Sort Tabs */}
-                <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
+                {/* Row 2: Sort Tabs — full-width scrollable row */}
+                <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
                   <SlidersHorizontal className="h-3.5 w-3.5 text-gray-400 shrink-0" />
                   {(
                     [
